@@ -103,14 +103,17 @@ function writeToFile(fileName, data) {
                 fs.appendFile(fileName, `# ${data.questionTitle} [![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)\n`, (err) => {
                     err ? console.error(err) : console.log('Title and License logged!')
                 })
+                break;
             case 'Mozilla Public License 2.0':
                 fs.appendFile(fileName, `# ${data.questionTitle} [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)\n`, (err) => {
                     err ? console.error(err) : console.log('Title and License logged!')
                 })
+                break;
             case 'The Unilicense':
                 fs.appendFile(fileName, `# ${data.questionTitle} [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)\n`, (err) => {
                     err ? console.error(err) : console.log('Title and License logged!')
                 })
+                break;
         }
     }
     else if (data.questionTitle) {
@@ -143,7 +146,6 @@ function writeToFile(fileName, data) {
             err ? console.error(err) : console.log('Test instructions logged!')
         })
     }
-
 }
 
 function init() {

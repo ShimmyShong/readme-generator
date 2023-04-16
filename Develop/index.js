@@ -1,8 +1,6 @@
-// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-// TODO: Create an array of questions for user input
 const licenseDescriptionArray = [
     `   Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -180,106 +178,142 @@ const questions = [
         type: 'list',
         choices: ['None', 'Apache License 2.0', 'GNU General Public License v3.0', 'MIT License', 'BSD 2-Clause "Simplified" License', 'BSD 3-Clause "New" or "Revised" License', 'Boost Software License 1.0', 'Creative Commons Zero v1.0 Universal', 'Eclipse Public License 2.0', 'GNU Affero General Public License v3.0', 'GNU General Public License v2.0', 'GNU Lesser General Public License v2.1', 'Mozilla Public License 2.0', 'The Unilicense']
     },
+    {
+        name: 'questionUserName',
+        message: 'Please enter your github username',
+        type: 'input'
+    },
+    {
+        name: 'questionEmail',
+        message: 'Please enter your email address.',
+        type: 'input'
+    },
 ];
 
-async function writeToFile(fileName, data) {
+function writeToFile(fileName, data) {
     let readMeContent = '';
-    try {
-        await fs.truncate(fileName, 0, (err) => { // this resets the README.md every time the function is called
-            err ? console.error(err) : console.log('README contents reset.')
-        })
+    let tableContents = '## Table of Contents\n';
 
-        if (data.questionTitle && data.questionLicense != 'None') {
-            readMeContent += `# ${data.questionTitle} `;
-            switch (data.questionLicense) { // this switch statement contains all of the licenses that can be chosen when making a new repository
-                case 'Apache License 2.0':
-                    readMeContent += ` [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)\n`
-                    var licenseDescription = licenseDescriptionArray[0];
-                    break;
-                case 'GNU General Public License v3.0':
-                    readMeContent += `[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)\n`
-                    var licenseDescription = licenseDescriptionArray[1];
-                    break;
-                case 'MIT License':
-                    readMeContent += `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n`
-                    var licenseDescription = licenseDescriptionArray[2];
-                    break;
-                case 'BSD 2-Clause "Simplified" License':
-                    readMeContent += `[![License](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)\n`
-                    var licenseDescription = licenseDescriptionArray[3];
-                    break;
-                case 'BSD 3-Clause "New" or "Revised" License':
-                    readMeContent += `[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)\n`
-                    var licenseDescription = licenseDescriptionArray[4];
-                    break;
-                case 'Boost Software License 1.0':
-                    readMeContent += `[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)\n`
-                    var licenseDescription = licenseDescriptionArray[5];
-                    break;
-                case 'Creative Commons Zero v1.0 Universal':
-                    readMeContent += `[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)\n`
-                    var licenseDescription = licenseDescriptionArray[6];
-                    break;
-                case 'Eclipse Public License 2.0':
-                    readMeContent += `[![License: EPL-2.0](https://img.shields.io/badge/License-EPL%202.0-red.svg)](https://opensource.org/licenses/EPL-2.0)\n`
-                    var licenseDescription = licenseDescriptionArray[7];
-                    break;
-                case 'GNU Affero General Public License v3.0':
-                    readMeContent += `[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)\n`
-                    var licenseDescription = licenseDescriptionArray[8];
-                    break;
-                case 'GNU General Public License v2.0':
-                    readMeContent += `[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)\n`
-                    var licenseDescription = licenseDescriptionArray[9];
-                    break;
-                case 'GNU Lesser General Public License v2.1':
-                    readMeContent += `[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)\n`
-                    var licenseDescription = licenseDescriptionArray[10];
-                    break;
-                case 'Mozilla Public License 2.0':
-                    readMeContent += `[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)\n`
-                    var licenseDescription = licenseDescriptionArray[11];
-                    break;
-                case 'The Unilicense':
-                    readMeContent += `[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)\n`
-                    var licenseDescription = licenseDescriptionArray[12];
-                    break;
-            }
+    if (data.questionTitle && data.questionLicense != 'None') {
+        readMeContent += `# ${data.questionTitle} `;
+        switch (data.questionLicense) { // this switch statement contains all of the licenses that can be chosen when making a new repository
+            case 'Apache License 2.0':
+                readMeContent += ` [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)\n`
+                var licenseDescription = licenseDescriptionArray[0];
+                break;
+            case 'GNU General Public License v3.0':
+                readMeContent += `[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)\n`
+                var licenseDescription = licenseDescriptionArray[1];
+                break;
+            case 'MIT License':
+                readMeContent += `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n`
+                var licenseDescription = licenseDescriptionArray[2];
+                break;
+            case 'BSD 2-Clause "Simplified" License':
+                readMeContent += `[![License](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)\n`
+                var licenseDescription = licenseDescriptionArray[3];
+                break;
+            case 'BSD 3-Clause "New" or "Revised" License':
+                readMeContent += `[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)\n`
+                var licenseDescription = licenseDescriptionArray[4];
+                break;
+            case 'Boost Software License 1.0':
+                readMeContent += `[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)\n`
+                var licenseDescription = licenseDescriptionArray[5];
+                break;
+            case 'Creative Commons Zero v1.0 Universal':
+                readMeContent += `[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)\n`
+                var licenseDescription = licenseDescriptionArray[6];
+                break;
+            case 'Eclipse Public License 2.0':
+                readMeContent += `[![License: EPL-2.0](https://img.shields.io/badge/License-EPL%202.0-red.svg)](https://opensource.org/licenses/EPL-2.0)\n`
+                var licenseDescription = licenseDescriptionArray[7];
+                break;
+            case 'GNU Affero General Public License v3.0':
+                readMeContent += `[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)\n`
+                var licenseDescription = licenseDescriptionArray[8];
+                break;
+            case 'GNU General Public License v2.0':
+                readMeContent += `[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)\n`
+                var licenseDescription = licenseDescriptionArray[9];
+                break;
+            case 'GNU Lesser General Public License v2.1':
+                readMeContent += `[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)\n`
+                var licenseDescription = licenseDescriptionArray[10];
+                break;
+            case 'Mozilla Public License 2.0':
+                readMeContent += `[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)\n`
+                var licenseDescription = licenseDescriptionArray[11];
+                break;
+            case 'The Unilicense':
+                readMeContent += `[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)\n`
+                var licenseDescription = licenseDescriptionArray[12];
+                break;
         }
-        else if (data.questionTitle) {
-            readMeContent += `# ${data.questionTitle}\n`;
-        }
-        if (data.questionDescription) {
-            readMeContent += `\n## Description\n${data.questionDescription}\n`
-            console.log('Description logged!')
-        }
+    }
+    else if (data.questionTitle) {
+        readMeContent += `# ${data.questionTitle}\n`;
+    }
+    if (data.questionDescription) {
+        readMeContent += `\n## Description\n${data.questionDescription}\n`
+        console.log('Description logged!')
+    }
+    if (tableContents) { // adds table of content based on what questions were answered
         if (data.questionInstallation) {
-            readMeContent += `## Installation\n${data.questionInstallation}\n`
-            console.log('Installation instructions logged!')
+            tableContents += `- [Installation](#installation)\n`
         }
         if (data.questionUsage) {
-            readMeContent += `## Usage\n${data.questionUsage}\n`
-            console.log('Usage information logged!')
+            tableContents += `- [Usage](#usage)\n`
         }
         if (data.questionContribution) {
-            readMeContent += `## Contribution Guidelines\n${data.questionContribution}\n`
-            console.log('Contribution guidelines logged!')
+            tableContents += `- [Contribution Guidelines](#contribution-guidelines)\n`
         }
         if (data.questionTestInstructions) {
-            readMeContent += `## Test Instructions\n${data.questionTestInstructions}\n`
-            console.log('Test instructions logged!')
+            tableContents += `- [Test Instructions](#test-instructions)\n`
         }
         if (data.questionLicense != 'None') {
-            readMeContent += `## License\n${licenseDescription}\n`
-            console.log('License information logged!')
+            tableContents += `- [License](#license)\n`
         }
-        fs.writeFile(fileName, readMeContent, (err) => {
-            err ? console.error(err) : console.log('README.md created')
-        })
+        if (data.questionUserName || data.questionEmail) {
+            tableContents += `- [Questions](#questions)\n`
+        }
+        readMeContent += tableContents;
     }
-    catch (err) {
-        console.error(err);
+    if (data.questionInstallation) {
+        readMeContent += `## Installation\n${data.questionInstallation}\n`
+        console.log('Installation instructions logged!')
     }
+    if (data.questionUsage) {
+        readMeContent += `## Usage\n${data.questionUsage}\n`
+        console.log('Usage information logged!')
+    }
+    if (data.questionContribution) {
+        readMeContent += `## Contribution Guidelines\n${data.questionContribution}\n`
+        console.log('Contribution guidelines logged!')
+    }
+    if (data.questionTestInstructions) {
+        readMeContent += `## Test Instructions\n${data.questionTestInstructions}\n`
+        console.log('Test instructions logged!')
+    }
+    if (data.questionLicense != 'None') {
+        readMeContent += `## License\n${licenseDescription}\n`
+        console.log('License information logged!')
+    }
+    if (data.questionUserName && data.questionEmail) {
+        readMeContent += `## Questions \n If you have any additional questions, then reach out to me with these links! \n Github Account: https://github.com/${data.questionUserName} \n Email Contact: ${data.questionEmail}\n`
+        console.log('Github username and email logged!')
+    }
+    else if (data.questionUserName) {
+        readMeContent += `## Questions\nIf you have any additional questions, then reach out to me with these links!\nGithub Account: https://github.com/${data.questionUserName}\n`
+        console.log('Github username logged!')
+    }
+    else if (data.questionEmail) {
+        readMeContent += `## Questions\nIf you have any additional questions, then reach out to me with these links!\nEmail Contact: ${data.questionEmail}\n`
+        console.log('Email logged!')
+    }
+    fs.writeFile(fileName, readMeContent, (err) => {
+        err ? console.error(err) : console.log('README.md created')
+    })
 }
 
 function init() {

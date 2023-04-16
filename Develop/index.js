@@ -292,7 +292,7 @@ function writeToFile(fileName, data) {
         console.log('Contribution guidelines logged!')
     }
     if (data.questionTestInstructions) {
-        readMeContent += `## Test Instructions\n${data.questionTestInstructions}\n`
+        readMeContent += `## Tests\n${data.questionTestInstructions}\n`
         console.log('Test instructions logged!')
     }
     if (data.questionLicense != 'None') {
@@ -324,5 +324,4 @@ function init() {
         })
 }
 
-// Function call to initialize app
 init();

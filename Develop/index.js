@@ -269,7 +269,7 @@ function writeToFile(fileName, data) {
             tableContents += `- [Contribution Guidelines](#contribution-guidelines)\n`
         }
         if (data.questionTestInstructions) {
-            tableContents += `- [Test Instructions](#test-instructions)\n`
+            tableContents += `- [Tests](#tests)\n`
         }
         if (data.questionLicense != 'None') {
             tableContents += `- [License](#license)\n`
@@ -320,7 +320,7 @@ function init() {
     inquirer
         .prompt(questions)
         .then((answer) => {
-            writeToFile('README.md', answer)
+            writeToFile('./README.md', answer)
         })
 }
 

@@ -1,4 +1,5 @@
 # README.md Generator [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+https://user-images.githubusercontent.com/123122824/234168462-7d43f9f2-e29d-4b6c-af7b-84effeb9b82f.mp4
 
 ## Description
 This program will automatically generate a README.md file for you as you answer a series of questions. If you would like to skip a section, all you have to do is leave the answer blank when the question comes up, then it won't show up in the README.md! While I was creating this I actually learned a little about how the asynchronous nature of Javascript can sometimes leave undesired consequences, but thankfully I was able to overcome those difficulties.
